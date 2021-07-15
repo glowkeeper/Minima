@@ -134,7 +134,7 @@ public class NetworkHandler extends MessageProcessor {
 	 * The SSLServerSocketFactory!
 	 */
 	SSLServerSocketFactory mSSLServerFactory;
-	boolean SSL_ENABLED = true;
+	boolean SSL_ENABLED = false;
 	/**
 	 * 
 	 * @param zMain
