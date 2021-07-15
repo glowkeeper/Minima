@@ -40,8 +40,7 @@ public class RPCServer implements Runnable{
 				mServerSocket.close();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MinimaLogger.log(e);
 		}
 	}
 	
@@ -82,8 +81,7 @@ public class RPCServer implements Runnable{
 				MinimaLogger.log("RPCServer : Socket Shutdown.. "+e);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MinimaLogger.log(e);
 		}
 	}
 	
