@@ -4,6 +4,7 @@ import org.minima.objects.base.MiniData;
 import org.minima.objects.base.MiniString;
 import org.minima.system.Main;
 import org.minima.system.brains.BackupManager;
+import org.minima.system.network.NetworkHandler;
 import org.minima.system.network.commands.CMD;
 import org.minima.system.network.minidapps.minihub.hexdata.*;
 import org.minima.utils.MiniFile;
@@ -54,29 +55,10 @@ public class DAPPServer extends NanoHTTPD{
 		mWebRoot = mBackup.getWebRoot();
 		//Store of all the params and files for a MiniDAPP..
 		mParams = new Hashtable<>();
-		try {
-			KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-			keyPairGenerator.initialize(4096);
-			KeyPair keyPair = keyPairGenerator.generateKeyPair();
-			final X509Certificate cert = SelfSignedCertGenerator.generate(keyPair, "SHA256withRSA", "localhost", 730);
-			KeyStore keystore = SelfSignedCertGenerator.createKeystore(cert, keyPair.getPrivate());
-			KeyManagerFactory keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
-			keyManagerFactory.init(keystore, "MINIMAPWD".toCharArray());
-
-			makeSecure(NanoHTTPD.makeSSLSocketFactory(keystore, keyManagerFactory), null);
-		}
-		catch (IOException e) {
-			MinimaLogger.log("MiniDAPP server error " + e.toString());
-		} catch (KeyStoreException e) {
-			MinimaLogger.log("MiniDAPP KeyStoreException " + e.toString());
-		} catch (NoSuchAlgorithmException e) {
-			MinimaLogger.log("MiniDAPP NoSuchAlgorithmException " + e.toString());
-		} catch (UnrecoverableKeyException e) {
-			MinimaLogger.log("MiniDAPP UnrecoverableKeyException " + e.toString());
-		} catch (CertificateException e) {
-			MinimaLogger.log("MiniDAPP CertificateException " + e.toString());
-		} catch (java.lang.Exception e){
-			MinimaLogger.log("MiniDAPP server error " + e.toString());
+		
+		//Make this secure..
+		if(zDAPPManager.getNetworkHandler().isSSLEnabled()) {
+			makeSecure(zDAPPManager.getNetworkHandler().getSSLServerFactory(), null);
 		}
 	}
 	@Override

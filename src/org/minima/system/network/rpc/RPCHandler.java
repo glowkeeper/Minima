@@ -65,6 +65,8 @@ public class RPCHandler implements Runnable {
 			//Get the first line..
 			firstline = new String(input);
 			
+			MinimaLogger.log("RPC : "+firstline);
+			
 			// we parse the request with a string tokenizer
 			StringTokenizer parse = new StringTokenizer(input);
 			String method = parse.nextToken().toUpperCase(); // we get the HTTP method of the client
