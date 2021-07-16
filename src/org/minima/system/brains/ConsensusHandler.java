@@ -100,6 +100,8 @@ public class ConsensusHandler extends MessageProcessor {
 	 */
 	public static final String CONSENSUS_TOKENCREATE 		= "CONSENSUS_TOKENCREATE";
 	
+	public static final String CONSENSUS_DEBUGTEST 	      	= "CONSENSUS_DEBUGTEST";
+	
 	/**
 	 * Notification Messages
 	 */
@@ -385,6 +387,12 @@ public class ConsensusHandler extends MessageProcessor {
 			getMainDB().remeoveMiningTransaction(txpow.getTransaction());
 				
 	
+		}else if ( zMessage.isMessageType(CONSENSUS_DEBUGTEST) ) {
+			//Clean the Tokens..
+			getMainDB().checkTokens();
+			
+			InputHandler.endResponse(zMessage, true, "Tokens Cleaned!");
+			
 			//AUTO Messages
 		}else if ( zMessage.isMessageType(CONSENSUS_FLUSH) ) {
 			//Flush / Check the mem-pool
