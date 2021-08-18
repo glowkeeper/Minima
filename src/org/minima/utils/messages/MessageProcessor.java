@@ -95,8 +95,15 @@ public abstract class MessageProcessor extends MessageStack implements Runnable{
                 		MinimaLogger.log("["+getSize()+"] "+sdf.format(new Date())+" [ "+mMainThread.getName()+" ] \t"+msg);
                 	}
                 
+                	long timenow = System.currentTimeMillis();
+                	
                 	//Process Message
                     processMessage(msg);
+                    
+                    long timediff = System.currentTimeMillis() - timenow;
+                    if(timediff > 1000) {
+                    	MinimaLogger.log("*** MESSAGE TAKES TOO LONG TO PROCESS!! "+timediff+" milli ["+getSize()+"] "+sdf.format(new Date())+" [ "+mMainThread.getName()+" ] \t"+msg);
+                    }
                 
                 }catch(Error noclass){
                 	MinimaLogger.log("**SERIOUS SETUP ERROR "+msg+" "+noclass.toString());
